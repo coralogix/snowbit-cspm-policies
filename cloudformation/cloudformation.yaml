@@ -1,8 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: CSPM deployment template
-# ==========================================================
-# Mappings:
-# ==========================================================
 Mappings:
   RegionMap:
     us-east-1:        # N.Virginia
@@ -43,10 +40,6 @@ Mappings:
     TagOne:
       Key:
       Value:
-
-# ==========================================================
-# Parameters:
-# ==========================================================
 Parameters:
   InstanceTypeParam:
     Description: EC2 Instance types
@@ -119,10 +112,6 @@ Parameters:
     Type: String
     Default: 0.0.0.0/0
     Description: Enter your public IP address to allow specific SSH access
-
-# ==========================================================
-# Resources:
-# ==========================================================
 Resources:
   CSPMEc2Instance:
     Type: AWS::EC2::Instance
