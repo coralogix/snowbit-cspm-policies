@@ -98,7 +98,6 @@ resource "aws_instance" "cspm-instance" {
   }
   tags = {
     Name  = "Snowbit CSPM"
-    Owner = "Nir Limor"
   }
 }
 resource "aws_network_interface" "networkInterface" {
