@@ -36,10 +36,6 @@ Mappings:
       AMI: ami-0efda064d1b5e46a5
     sa-east-1:        # São Paulo
       AMI: ami-04b3c23ec8efcc2d6
-  keysMap:
-    TagOne:
-      Key:
-      Value:
 Parameters:
   InstanceTypeParam:
     Description: EC2 Instance types
