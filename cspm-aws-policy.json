@@ -37,6 +37,7 @@
                 "config:Describe*",
                 "config:Get*",
                 "config:List*",
+                "dms:Describe*",
                 "ec2:Describe*",
                 "ec2:ExportClientVpn*",
                 "ec2:Get*",
