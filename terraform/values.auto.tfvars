@@ -1,11 +1,11 @@
 # ======================
 # Mandatory Variables:
 # ======================
-  PrivateKey = "d06e0c3b-14fc-3243-39f2-5f7f77616892"
-  VpcId = "vpc-0b5de220f4fffb454"
-  Subnet = "subnet-00d65cd86e3a9493d"
-  GRPC_Endpoint = "ng-api-grpc.coralogix.com"
-  SSHKeyName = "ireland"
+  PrivateKey = ""
+  VpcId = ""
+  Subnet = ""
+  GRPC_Endpoint = ""
+  SSHKeyName = ""
 
 # ======================
 # Optional Variables:
