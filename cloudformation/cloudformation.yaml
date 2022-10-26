@@ -50,6 +50,12 @@ Parameters:
       - t3.medium
       - c4.large
       - m4.large
+  Encrypted:
+    Type: String
+    Default: false
+    AllowedValues:
+      - true
+      - false
   KeyName:
     Description: Name of an existing Key Pair to use for the CSPM EC2 instance
     Type: AWS::EC2::KeyPair::KeyName
@@ -76,17 +82,16 @@ Parameters:
     Description: Subsystem name for Coralogix account
   TesterList:
     Type: String
-    Description: Optional
+    Description: Test only specific services (Comma separated with no spaces. optional)
   RegionList:
     Type: String
-    Description: Optional
+    Description: Test only specific regions (Comma separated with no spaces. optional)
   PrivateKey:
     Type: String
     Description: Private API key from Coralogix account
   CSPMVersion:
     Type: String
-    Default: v1.0.3
-    Description: Optional
+    Description: Leave blank to use the latest version (optional)
   VolumeType:
     Type: String
     Default: gp3
@@ -160,6 +165,7 @@ Resources:
           Ebs:
             VolumeType: !Ref VolumeType
             VolumeSize: 8
+            Encrypted: !Ref Encrypted
       NetworkInterfaces:
         - DeviceIndex: 0
           AssociatePublicIpAddress: !Ref PublicAccess
