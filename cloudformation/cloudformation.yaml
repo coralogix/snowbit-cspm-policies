@@ -50,6 +50,8 @@ Parameters:
       - t3.medium
       - c4.large
       - m4.large
+  company_id:
+    Type: String
   Encrypted:
     Type: String
     Default: false
@@ -146,6 +148,9 @@ Resources:
               - !Ref "GRPCEndpoint"
               - " -e APPLICATION_NAME="
               - !Ref "applicationName"
+              - " -e CLOUD_PROVIDER=aws"
+              - " -e COMPANY_ID="
+              - !Ref "company_id"
               - " -e SUBSYSTEM_NAME="
               - !Ref "subsystemName"
               - " -e TESTER_LIST="
@@ -237,6 +242,7 @@ Resources:
                   - config:Describe*
                   - config:Get*
                   - config:List*
+                  - dms:Describe*,
                   - ec2:Describe*
                   - ec2:ExportClientVpn*
                   - ec2:Get*
