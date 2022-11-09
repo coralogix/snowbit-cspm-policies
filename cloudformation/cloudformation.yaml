@@ -50,7 +50,7 @@ Parameters:
       - t3.medium
       - c4.large
       - m4.large
-  company_id:
+  companyid:
     Type: String
   Encrypted:
     Type: String
@@ -150,7 +150,7 @@ Resources:
               - !Ref "applicationName"
               - " -e CLOUD_PROVIDER=aws"
               - " -e COMPANY_ID="
-              - !Ref "company_id"
+              - !Ref "companyid"
               - " -e SUBSYSTEM_NAME="
               - !Ref "subsystemName"
               - " -e TESTER_LIST="
