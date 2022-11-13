@@ -1,7 +1,6 @@
 variable "privatekey" {
   description = "The 'send your data' API key from Coralogix account"
   sensitive   = true
-
 }
 
 variable "coralogix_region" {
