@@ -31,16 +31,16 @@ variable "subsystemName" {
 
 variable "log_group" {
   type        = string
-  description = "The log group to save the firehose execution logs"
+  description = "The log group to to be created that will save the firehose execution logs"
 }
 
 variable "log_group_name" {
   type        = string
-  description = "The log group that saves the CloudTrail logs in CloudWatch"
+  description = "The existing log group that saves the CloudTrail logs in CloudWatch"
 }
 
 variable "firehose_stream" {
-  description = "AWS Kinesis firehose delivery stream name"
+  description = "The AWS Kinesis firehose delivery stream name that will be created"
   type        = string
   default     = "firehose-stream"
 }
