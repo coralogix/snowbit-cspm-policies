@@ -146,7 +146,7 @@ Resources:
               - "sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y\n"
               - "crontab -l | { cat; echo \""
               - !Ref "cronjob"
-              - " docker rm snowbit-cspm ; docker run --name snowbit-cspm -d -e PYTHONUNBUFFERED=1 -e CLOUD_PROVIDER=\"aws\" -e AWS_DEFAULT_REGION=\"eu-west-1\" -e CORALOGIX_ENDPOINT_HOST="
+              - " docker rm snowbit-cspm ; docker rmi coralogixrepo/snowbit-cspm ; docker run --name snowbit-cspm -d -e PYTHONUNBUFFERED=1 -e CLOUD_PROVIDER=\"aws\" -e AWS_DEFAULT_REGION=\"eu-west-1\" -e CORALOGIX_ENDPOINT_HOST="
               - !Ref "GRPCEndpoint"
               - " -e APPLICATION_NAME="
               - !Ref "applicationName"
