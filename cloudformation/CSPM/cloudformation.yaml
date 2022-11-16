@@ -90,7 +90,7 @@ Parameters:
     Type: String
     Description: Test only specific regions (Comma separated with no spaces. optional)
   PrivateKey:
-    Type: String
+    Type: AWS::EC2::KeyPair::KeyName
     Description: Private API key from Coralogix account
   CSPMVersion:
     Type: String
