@@ -50,8 +50,9 @@ Parameters:
       - t3.medium
       - c4.large
       - m4.large
-  companyid:
+  CompanyId:
     Type: String
+    Description: Your company ID from your Coralogix account (Settings > Send your data)
   Encrypted:
     Type: String
     Default: false
@@ -93,6 +94,7 @@ Parameters:
     Description: Private API key from Coralogix account
   CSPMVersion:
     Type: String
+    Default: Latest
     Description: Leave blank to use the latest version (optional)
   VolumeType:
     Type: String
@@ -107,14 +109,14 @@ Parameters:
   PublicAccess:
     Type: String
     Default: true
-    Description: Allow or Deny public access to the CSPM EC2 instance
+    Description: Allow or Deny public access to the CSPM EC2 instance (will get a public IP address from the subnet)
     AllowedValues:
       - true
       - false
   PublicIPAddress:
     Type: String
     Default: 0.0.0.0/0
-    Description: Enter your public IP address to allow specific SSH access
+    Description: Enter your public IP address to allow specific SSH access (e.g. 11.22.33.44/32)
 Resources:
   CSPMEc2Instance:
     Type: AWS::EC2::Instance
@@ -150,7 +152,7 @@ Resources:
               - !Ref "applicationName"
               - " -e CLOUD_PROVIDER=aws"
               - " -e COMPANY_ID="
-              - !Ref "companyid"
+              - !Ref "CompanyId"
               - " -e SUBSYSTEM_NAME="
               - !Ref "subsystemName"
               - " -e TESTER_LIST="
@@ -159,6 +161,7 @@ Resources:
               - !Ref "PrivateKey"
               - " -e REGION_LIST="
               - !Ref "RegionList"
+              - "--network host"
               - " -v ~/.aws/credentials:/root/.aws/credentials coralogixrepo/snowbit-cspm:"
               - !Ref "CSPMVersion"
               - "\"; } | crontab - \n"
