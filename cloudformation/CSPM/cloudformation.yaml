@@ -94,7 +94,7 @@ Parameters:
     Description: Private API key from Coralogix account
   CSPMVersion:
     Type: String
-    Default: Latest
+    Default: latest
     Description: Leave blank to use the latest version (optional)
   VolumeType:
     Type: String
@@ -161,7 +161,7 @@ Resources:
               - !Ref "PrivateKey"
               - " -e REGION_LIST="
               - !Ref "RegionList"
-              - "--network host"
+              - " --network host"
               - " -v ~/.aws/credentials:/root/.aws/credentials coralogixrepo/snowbit-cspm:"
               - !Ref "CSPMVersion"
               - "\"; } | crontab - \n"
