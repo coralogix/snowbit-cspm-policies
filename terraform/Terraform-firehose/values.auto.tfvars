@@ -1,0 +1,7 @@
+privatekey = "06d59944-db60-471d-94fc-d28569ba0e1e"
+coralogix_region = "ireland"
+application_name = "test-tf-integration"
+subsystemName = "test-tf-integration"
+firehose_stream = "fh-stream"
+log_group_name = "can-delete"
+log_group = "fh-stream-lg"
