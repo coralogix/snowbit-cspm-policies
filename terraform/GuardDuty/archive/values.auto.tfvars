@@ -1,0 +1,5 @@
+privatekey = "229254e4-d2cd-07b9-b980-14ddb3da613f"
+coralogix_region = "Europe"
+application_name = "test"
+subsystemName = "test"
+S3BucketName = "asdjnslkvgjskldgfhjklssxcvjbklxcvjbklcvbjndfghsdgh"
