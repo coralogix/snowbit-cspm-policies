@@ -7,7 +7,8 @@
             "Action": [
                 "access-analyzer:Get*",
                 "access-analyzer:List*",
-                "apigateway:Get",
+                "acm:Describe*",
+                "apigateway:Get*",
                 "application-autoscaling:Describe*",
                 "autoscaling-plans:Describe*",
                 "autoscaling-plans:GetScalingPlanResourceForecastData",
