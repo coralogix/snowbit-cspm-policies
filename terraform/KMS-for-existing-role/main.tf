@@ -27,8 +27,8 @@ resource "aws_iam_policy" "kms-policy" {
   name        = "kms-policy-test-1"
   policy      = data.aws_iam_policy_document.kms-decrypt-tr[0].json
 }
-resource "aws_iam_policy_attachment" "test-attachment" {
-  name        = "test-attachment"
+resource "aws_iam_policy_attachment" "policy-attachment" {
+  name        = "kms-policy"
   roles       = [var.role]
   policy_arn  = aws_iam_policy.kms-policy.arn
 }
