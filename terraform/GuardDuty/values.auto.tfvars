@@ -1,0 +1,7 @@
+private_key = "229254e4-d2cd-07b9-b980-14ddb3da613f"
+application_name = "test-2"
+subsystem_name = "test-2-sub"
+s3_bucket_name = "asdjnslkvgjskldgfhjklssxcvjbklxcvjbklcvbjndfghsdgh"
+coralogix_region = "India"
+functionName = "coralogix-GuardDuty"
+kms_arn = ""
