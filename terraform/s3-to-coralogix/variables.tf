@@ -106,7 +106,3 @@ variable "tags" {
 variable "functionName" {
   type = string
 }
-
-variable "kms_arn" {
-  type = string
-}
