@@ -78,7 +78,6 @@
                 "organizations:List*",
                 "rds:Describe*",
                 "redshift:Describe*",
-                "redshift:Get*",
                 "redshift:List*",
                 "redshift:ViewQueries*",
                 "rolesanywhere:Get*",
