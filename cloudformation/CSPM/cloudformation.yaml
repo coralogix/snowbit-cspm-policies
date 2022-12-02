@@ -6,18 +6,18 @@ Metadata:
       - Label:
           default: Coralogix Account
         Parameters:
-          - CompanyId
           - applicationName
           - subsystemName
           - PrivateKey
+          - CompanyId
       - Label:
           default: CSPM
         Parameters:
-          - cronjob
+          - CSPMVersion
           - GRPCEndpoint
           - TesterList
           - RegionList
-          - CSPMVersion
+          - cronjob
       - Label:
           default: EC2 Instance
         Parameters:
@@ -171,7 +171,7 @@ Parameters:
     Description: Enter your public IP address to allow specific SSH access (e.g. 11.22.33.44/32)
   SecurityGroupId:
     Type: String
-    Description: Optional
+    Description: Optional - If no security group specified, a new one will be created
     Default: ""
 Conditions:
   IsSecurityGroupEmpty: !Equals [!Ref "SecurityGroupId", ""]
