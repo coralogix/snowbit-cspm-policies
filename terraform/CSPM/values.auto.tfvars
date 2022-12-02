@@ -1,12 +1,13 @@
 # ======================
 # Mandatory Variables:
 # ======================
-  PrivateKey = ""
-  VpcId = ""
-  Subnet = ""
-  GRPC_Endpoint = ""
-  SSHKeyName = ""
-
+  PrivateKey = "d06e0c3b-14fc-3243-39f2-5f7f77616892"
+  VpcId = "vpc-08eadee578031ae9b"
+  Subnet = "subnet-0df0f0d6b3cf87f9b"
+  GRPC_Endpoint = "Europe"
+  SSHKeyName = "Ohio"
+  alertAPIkey = ""
+  Company_ID = "12345"
 # ======================
 # Optional Variables:
 # ======================
