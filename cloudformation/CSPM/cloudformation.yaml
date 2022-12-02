@@ -1,5 +1,38 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: CSPM deployment template
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Coralogix Account
+        Parameters:
+          - CompanyId
+          - applicationName
+          - subsystemName
+          - PrivateKey
+      - Label:
+          default: CSPM
+        Parameters:
+          - cronjob
+          - GRPCEndpoint
+          - TesterList
+          - RegionList
+          - CSPMVersion
+      - Label:
+          default: EC2 Instance
+        Parameters:
+          - InstanceTypeParam
+          - VolumeType
+          - Encrypted
+          - KeyName
+      - Label:
+          default: Networking
+        Parameters:
+          - VpcId
+          - SubnetId
+          - PublicAccess
+          - PublicIPAddress
+          - SecurityGroupId
 Mappings:
   GRPCRegionMap:
     Europe:
