@@ -33,6 +33,43 @@ Metadata:
           - PublicAccess
           - PublicIPAddress
           - SecurityGroupId
+    ParameterLabels:
+          applicationName:
+            default: Application Name
+          subsystemName:
+            default: Subsystem Name
+          PrivateKey:
+            default: API Private Key
+          CompanyId:
+            default: Company ID
+          CSPMVersion:
+            default: CSPM Version
+          GRPCEndpoint:
+            default: GRPC Endpoint
+          TesterList:
+            default: Tester List
+          RegionList:
+            default: Region List
+          cronjob:
+            default: CronJob
+          InstanceTypeParam:
+            default: Instance Type
+          VolumeType:
+            default: Volume Type
+          Encrypted:
+            default: Should volume be encrypted?
+          KeyName:
+            default: Key Name
+          VpcId:
+            default: VPC ID
+          SubnetId:
+            default: Subnet ID
+          PublicAccess:
+            default: Should the instance have a public IP address?
+          PublicIPAddress:
+            default: Your public IP address for the SSH access
+          SecurityGroupId:
+            default: Security Group ID
 Mappings:
   GRPCRegionMap:
     Europe:
