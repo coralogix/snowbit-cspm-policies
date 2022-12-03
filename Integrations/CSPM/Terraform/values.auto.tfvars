@@ -1,23 +1,28 @@
-# ======================
-# Mandatory Variables:
-# ======================
-  PrivateKey = ""
-  VpcId = ""
-  Subnet = ""
-  GRPC_Endpoint = ""
-  SSHKeyName = ""
-  alertAPIkey = ""
-  Company_ID = ""
-# ======================
-# Optional Variables:
-# ======================
-#  cronjob = "0 23 * * *"
-#  instanceType = "t2.micro"
-#  aws_ami = "ami-096800910c1b781ba"
-#  SSHIpAddress = ""
-#  applicationName = "CSPM"
-#  subsystemName = "CSPM"
-#  CSPMVersion = "v1.0.50"
-#  DiskType = ""
-#  TesterList = ""
-#  RegionList = ""
+#=================================================================================================
+#                                   Mandatory Variables:
+#=================================================================================================
+PrivateKey              = ""
+Subnet_ID               = ""
+GRPC_Endpoint           = ""
+SSHKeyName              = ""
+Company_ID              = ""
+
+# ================================================================================================
+#                                   Optional Variables:
+# ================================================================================================
+#alertAPIkey             = ""
+#ebs_encryption          = false
+#public_instance         = true
+#cronjob                 = ""
+#instanceType            = ""
+#SSHIpAddress            = ""                  # The public IP address for SSH access to the EC2 instance
+#applicationName         = ""                  # For the Coralogix account
+#subsystemName           = ""                  # For the Coralogix account
+#CSPMVersion             = ""
+#DiskType                = ""
+#TesterList              = ""
+#RegionList              = ""
+#additional_tags         = {
+#  key = "value"
+#}
+
