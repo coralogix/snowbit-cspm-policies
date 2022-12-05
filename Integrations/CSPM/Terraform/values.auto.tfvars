@@ -1,15 +1,16 @@
 #=======================================================================================================
 #                                   Mandatory Variables:
 #=======================================================================================================
-PrivateKey              = ""
-Subnet_ID               = ""
-GRPC_Endpoint           = ""                   # Can be either - Europe, Europe2, India, Singapore or US
-SSHKeyName              = ""                   # Without the '.pem'
-Company_ID              = ""
+PrivateKey               = ""
+Subnet_ID                = ""
+GRPC_Endpoint            = ""                  # Can be either - Europe, Europe2, India, Singapore or US
+SSHKeyName               = ""                  # Without the '.pem'
+Company_ID               = 00000               # Number
 
 # ======================================================================================================
 #                                   Optional Variables:
 # ======================================================================================================
+#security_group_id       = ""
 #alertAPIkey             = ""
 #ebs_encryption          = false
 #public_instance         = true
@@ -23,6 +24,6 @@ Company_ID              = ""
 #TesterList              = ""
 #RegionList              = ""
 #additional_tags         = {
-#  key = "value"
+#  Key = "Value"
 #}
 

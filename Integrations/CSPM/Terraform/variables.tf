@@ -53,7 +53,7 @@ variable "DiskType" {
 }
 variable "SSHIpAddress" {
   default     = "0.0.0.0/0"
-  description = "The default outbound port for the CSPM instance security group"
+  description = "The public IP address for SSH access to the EC2 instance"
 }
 variable "GRPC_Endpoint" {
   type        = string
@@ -101,14 +101,21 @@ variable "alertAPIkey" {
   sensitive   = true
 }
 variable "Company_ID" {
-  type = string
+  type = number
   description = "The Coralogix team company ID"
 }
 variable "ebs_encryption" {
   type        = bool
   default     = false
+  description = "Decide id the EBS volume of the CSPM should be encrypted"
 }
 variable "public_instance" {
   type        = bool
   default     = true
+  description = "Decide if the EC2 instance should pull a public IP address or not"
+}
+variable "security_group_id" {
+  type        = string
+  default     = ""
+  description = "External security group to use instead of creating a new one"
 }
