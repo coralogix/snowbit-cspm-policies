@@ -18,6 +18,7 @@ Metadata:
           - TesterList
           - RegionList
           - cronjob
+          - multiAccountsARNs
       - Label:
           default: EC2 Instance
         Parameters:
@@ -70,6 +71,8 @@ Metadata:
             default: Your public IP address for the SSH access
           SecurityGroupId:
             default: Security Group ID
+          multiAccountsARNs:
+            default: ARN for one additional AWS account to scan
 Mappings:
   GRPCRegionMap:
     Europe:
@@ -210,8 +213,18 @@ Parameters:
     Type: String
     Description: Optional - If no security group specified, a new one will be created
     Default: ""
+  multiAccountsARNs:
+    Type: String
+    Description: Optional - add the ARN for one additional account that you wish to scan - refer to the CSPM documentation https://coralogix.com/docs/cloud-security-posture-cspm/
+    Default: ""
 Conditions:
-  IsSecurityGroupEmpty: !Equals [!Ref "SecurityGroupId", ""]
+  IsSecurityGroupEmpty: !Equals
+    - !Ref SecurityGroupId
+    - ""
+  IsMultiAccountNotEmpty: !Not
+    - !Equals
+      - !Ref multiAccountsARNs
+      - ""
 Resources:
   CSPMEc2Instance:
     Type: AWS::EC2::Instance
@@ -281,6 +294,8 @@ Resources:
               - !Ref "PrivateKey"
               - " -e REGION_LIST="
               - !Ref "RegionList"
+              - " -e ROLE_ARN_LIST="
+              - !Ref "multiAccountsARNs"
               - " --network host"
               - " -v ~/.aws/credentials:/root/.aws/credentials coralogixrepo/snowbit-cspm:"
               - !Ref "CSPMVersion"
@@ -302,12 +317,12 @@ Resources:
     Condition: IsSecurityGroupEmpty
     Properties:
       GroupDescription: Enable SSH to the CSPM instance and internet connectivity
-      GroupName: CSPM SG
+      GroupName: !Join ["-",["CSPM SG",!Ref AWS::StackName]]
       VpcId: !Ref VpcId
       SecurityGroupIngress:
         - IpProtocol: tcp
-          FromPort: '22'
-          ToPort: '22'
+          FromPort: 22
+          ToPort: 22
           CidrIp: !Ref PublicIPAddress
   CSPMRole:
     Type: AWS::IAM::Role
@@ -326,7 +341,7 @@ Resources:
   CSPMPolicy:
     Type: AWS::IAM::ManagedPolicy
     Properties:
-      ManagedPolicyName: CSPMPolicy
+      ManagedPolicyName: !Join ["-",["CSPM-Policy",!Ref AWS::StackName]]
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -452,10 +467,25 @@ Resources:
             Resource: "*"
       Roles:
         - !Ref CSPMRole
+  CSPMAssumeRolePolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Condition: IsMultiAccountNotEmpty
+    Properties:
+      ManagedPolicyName: !Join ["-",["CSPM-Assume-Role-Policy",!Ref AWS::StackName]]
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: CSPMAssumeRole
+            Effect: Allow
+            Action: sts:AssumeRole
+            Resource:
+             - !Ref multiAccountsARNs
+      Roles:
+        - !Ref CSPMRole
   CSPMInstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
-      InstanceProfileName: CSPMInstanceProfile
+      InstanceProfileName: !Join ["-",["CSPMInstanceProfile",!Ref AWS::StackName]]
       Path: /
       Roles:
         - !Ref CSPMRole
