@@ -41,6 +41,10 @@ variable "instanceType" {
 variable "Subnet_ID" {
   type        = string
   description = "Subnet for the EC2 instance"
+  validation {
+    condition = can(regex("^subnet-\\w+", var.Subnet_ID))
+    error_message = "Invalid subnet ID"
+  }
 }
 variable "SSHKeyName" {
   type        = string
@@ -59,6 +63,10 @@ variable "GRPC_Endpoint" {
   type        = string
   default     = "ng-api-grpc.coralogix.com"
   description = "The address of the GRPC endpoint for the coralogix account"
+  validation {
+    condition = can(regex("^(Europe|Europe2|India|Singapore|US)$", var.GRPC_Endpoint))
+    error_message = "Invalid GRPC endpoint"
+  }
 }
 variable "applicationName" {
   type        = string
@@ -84,6 +92,10 @@ variable "PrivateKey" {
   default     = ""
   description = "The API Key from the Coralogix account"
   sensitive   = true
+  validation {
+    condition = can(regex("[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}", var.PrivateKey))
+    error_message = "The PrivateKey should be valid UUID string"
+  }
 }
 variable "CSPMVersion" {
   type        = string
