@@ -131,3 +131,8 @@ variable "security_group_id" {
   default     = ""
   description = "External security group to use instead of creating a new one"
 }
+variable "multiAccountsARN" {
+  type = string
+  default = ""
+  description = "Optional - add the ARN for one additional account that you wish to scan - refer to the CSPM documentation https://coralogix.com/docs/cloud-security-posture-cspm/"
+}

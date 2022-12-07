@@ -7,17 +7,11 @@ terraform {
   }
 }
 
-# ==========================================================
-#                          Data
-# ==========================================================
 data "aws_region" "current" {}
 data "aws_subnet" "subnet" {
   id = var.Subnet_ID
 }
 
-# ==========================================================
-#                       resources
-# ==========================================================
 resource "aws_instance" "cspm-instance" {
   ami                           = lookup(var.ubuntu-amis-map, data.aws_region.current.name)
   instance_type                 = var.instanceType
@@ -26,7 +20,7 @@ resource "aws_instance" "cspm-instance" {
   associate_public_ip_address   = var.public_instance
   subnet_id                     = var.Subnet_ID
   vpc_security_group_ids        = [var.security_group_id != "" ? var.security_group_id : aws_security_group.CSPMSecurityGroup[0].id]
-  user_data                     = "#!/bin/bash\nsudo apt update\nsudo apt-get remove docker docker-engine docker.io containerd runc\nsudo apt-get install ca-certificates curl gnupg lsb-release\nsudo mkdir -p /etc/apt/keyrings\ncurl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg\necho \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null\nsudo apt update\nsudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y \nsudo usermod -aG docker ubuntu \nnewgrp docker \ncrontab -l | { cat; echo \"${var.cronjob} docker rm snowbit-cspm ; docker rmi coralogixrepo/snowbit-cspm:${var.CSPMVersion} ; docker run --name snowbit-cspm -d -e PYTHONUNBUFFERED=1 -e CLOUD_PROVIDER=aws -e AWS_DEFAULT_REGION=eu-west-1 -e CORALOGIX_ENDPOINT_HOST=${lookup(var.grpc-endpoints-map, var.GRPC_Endpoint)} -e APPLICATION_NAME=${var.applicationName} -e SUBSYSTEM_NAME=${var.subsystemName} -e TESTER_LIST=${var.TesterList} -e API_KEY=${var.PrivateKey} -e REGION_LIST=${var.RegionList} -e CORALOGIX_ALERT_API_KEY=${var.alertAPIkey} -e COMPANY_ID=${var.Company_ID} -v ~/.aws/credentials:/root/.aws/credentials coralogixrepo/snowbit-cspm:${var.CSPMVersion}\"; } | crontab - \nsudo docker pull coralogixrepo/snowbit-cspm:${var.CSPMVersion} \ndocker run --name snowbit-cspm -d -e PYTHONUNBUFFERED=1 -e CLOUD_PROVIDER='aws' -e AWS_DEFAULT_REGION='eu-west-1' -e CORALOGIX_ENDPOINT_HOST=${lookup(var.grpc-endpoints-map, var.GRPC_Endpoint)} -e APPLICATION_NAME=${var.applicationName} -e SUBSYSTEM_NAME=${var.subsystemName} -e TESTER_LIST=${var.TesterList} -e API_KEY=${var.PrivateKey} -e REGION_LIST=${var.RegionList} -e CORALOGIX_ALERT_API_KEY=${var.alertAPIkey} -e COMPANY_ID=${var.Company_ID} -v ~/.aws/credentials:/root/.aws/credentials coralogixrepo/snowbit-cspm:${var.CSPMVersion}"
+  user_data                     = "#!/bin/bash\nsudo apt update\nsudo apt-get remove docker docker-engine docker.io containerd runc\nsudo apt-get install ca-certificates curl gnupg lsb-release\nsudo mkdir -p /etc/apt/keyrings\ncurl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg\necho \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null\nsudo apt update\nsudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y \nsudo usermod -aG docker ubuntu \nnewgrp docker \ncrontab -l | { cat; echo \"${var.cronjob} docker rm snowbit-cspm ; docker rmi coralogixrepo/snowbit-cspm:${var.CSPMVersion} ; docker run --name snowbit-cspm -d -e PYTHONUNBUFFERED=1 -e CLOUD_PROVIDER=aws -e AWS_DEFAULT_REGION=eu-west-1 -e CORALOGIX_ENDPOINT_HOST=${lookup(var.grpc-endpoints-map, var.GRPC_Endpoint)} -e APPLICATION_NAME=${var.applicationName} -e SUBSYSTEM_NAME=${var.subsystemName} -e TESTER_LIST=${var.TesterList} -e API_KEY=${var.PrivateKey} -e REGION_LIST=${var.RegionList} -e ROLE_ARN_LIST=${var.multiAccountsARN} -e CORALOGIX_ALERT_API_KEY=${var.alertAPIkey} -e COMPANY_ID=${var.Company_ID} -v ~/.aws/credentials:/root/.aws/credentials coralogixrepo/snowbit-cspm:${var.CSPMVersion}\"; } | crontab - \nsudo docker pull coralogixrepo/snowbit-cspm:${var.CSPMVersion} \ndocker run --name snowbit-cspm -d -e PYTHONUNBUFFERED=1 -e CLOUD_PROVIDER='aws' -e AWS_DEFAULT_REGION='eu-west-1' -e CORALOGIX_ENDPOINT_HOST=${lookup(var.grpc-endpoints-map, var.GRPC_Endpoint)} -e APPLICATION_NAME=${var.applicationName} -e SUBSYSTEM_NAME=${var.subsystemName} -e TESTER_LIST=${var.TesterList} -e API_KEY=${var.PrivateKey} -e REGION_LIST=${var.RegionList} -e ROLE_ARN_LIST=${var.multiAccountsARN} -e CORALOGIX_ALERT_API_KEY=${var.alertAPIkey} -e COMPANY_ID=${var.Company_ID} -v ~/.aws/credentials:/root/.aws/credentials coralogixrepo/snowbit-cspm:${var.CSPMVersion}"
   root_block_device {
     volume_type = var.DiskType
     encrypted = var.ebs_encryption
@@ -82,7 +76,6 @@ resource "aws_iam_instance_profile" "CSPMInstanceProfile" {
 }
 resource "aws_iam_role" "CSPMRole" {
   name                          = "CSPM-Role-${random_id.id.hex}"
-  managed_policy_arns = [aws_iam_policy.CSPMPolicy.arn]
   tags = merge(var.additional_tags,
     {
       Terraform-ID                = random_id.id.hex
@@ -237,6 +230,38 @@ resource "aws_iam_policy" "CSPMPolicy" {
       Terraform-ID                = random_id.id.hex
     }
   )
+}
+resource "aws_iam_policy" "CSPMAssumeRolePolicy" {
+  name = "CSPM-Assume-Role-Policy-${random_id.id.hex}"
+  count = length(var.multiAccountsARN) > 10 ? 1 : 0
+  policy                        = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [
+      {
+        "Sid": "CSPMAssumeRole",
+        "Effect": "Allow",
+        "Action": "sts:AssumeRole",
+        Resource: "${var.multiAccountsARN}"
+      }
+    ]
+  })
+  tags = merge(var.additional_tags,
+    {
+      Terraform-ID                = random_id.id.hex
+    }
+  )
+}
+resource "aws_iam_policy_attachment" "CSPMPolicy" {
+  name       = "CSPMPolicy-attach"
+  policy_arn = aws_iam_policy.CSPMPolicy.arn
+  roles = [aws_iam_role.CSPMRole.name]
+}
+resource "aws_iam_policy_attachment" "CSPMAssumeRolePolicy" {
+  count      = length(var.multiAccountsARN) > 10 ? 1 : 0
+  name       = "CSPMAssumeRolePolicy-attach"
+  policy_arn = aws_iam_policy.CSPMAssumeRolePolicy[0].arn
+  roles = [aws_iam_role.CSPMRole.name]
+
 }
 resource "random_id" "id" {
   byte_length = 4
