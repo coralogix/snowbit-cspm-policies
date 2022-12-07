@@ -23,6 +23,7 @@ Company_ID               = 00000               # Number
 #DiskType                = ""
 #TesterList              = ""
 #RegionList              = ""
+#multiAccountsARN        = ""
 #additional_tags         = {
 #  Key = "Value"
 #}
