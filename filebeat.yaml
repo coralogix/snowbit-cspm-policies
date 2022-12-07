@@ -1,0 +1,31 @@
+#============================== Filebeat Inputs ===============================
+filebeat.inputs:
+- type: log
+  paths:
+  - "<path_to_log">
+  processors:
+    - decode_json_fields:
+        fields: ["message"]
+        target: ""
+fields_under_root: true
+fields:
+  PRIVATE_KEY: "<send_your_data_key>"
+  COMPANY_ID: company_id
+  APP_NAME: "<APP_NAME>"
+  SUB_SYSTEM: "<SUB_SYSTEM>"
+
+#----------------------------- Logstash output --------------------------------
+
+output.logstash:
+  enabled: true
+  hosts: ["logstashserver.Cluster Name:5015"]
+  tls.certificate_authorities: ["/etc/filebeat/cert/Coralogix-EU.crt"]
+  ssl.certificate_authorities: ["/etc/filebeat/cert/Coralogix-EU.crt"]
+  
+### Clusters ###
+#
+# coralogix.us
+# coralogix.com	
+# eu2.coralogix.com	
+# app.coralogix.in
+# coralogixsg.com	
