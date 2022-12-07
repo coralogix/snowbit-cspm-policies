@@ -87,7 +87,7 @@ resource "aws_iam_role" "lambda-role" {
             "logs:CreateLogStream",
             "logs:PutLogEvents"
           ],
-          "Resource" : "*"
+          "Resource" : "arn:aws:logs:${data.aws_region.this}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${aws_lambda_function.this.function_name}"
         }
       ]
     })
