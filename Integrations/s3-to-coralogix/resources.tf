@@ -1,46 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.17.1"
-    }
-  }
-}
-locals {
-  coralogix_regions = {
-    Europe    = "api.coralogix.com"
-    Europe2   = "api.eu2.coralogix.com"
-    India     = "api.app.coralogix.in"
-    Singapore = "api.coralogixsg.com"
-    US        = "api.coralogix.us"
-  }
-}
-data "aws_region" "this" {}
-data "aws_caller_identity" "current" {}
-data "aws_iam_policy_document" "kms-decrypt" {
-  count = 1
-  statement {
-    sid       = "kmsDecrypt"
-    effect    = "Allow"
-    actions   = ["kms:Decrypt"]
-    resources = [var.kms_arn]
-  }
-}
-data "aws_iam_policy_document" "s3-bucket-access" {
-  count = 1
-  statement {
-    sid     = "s3BucketAccess"
-    effect = "Allow"
-    actions = [
-      "s3:GetObject",
-      "s3:ListBucket",
-      "s3:GetBucketLocation",
-      "s3:GetObjectVersion",
-      "s3:GetLifecycleConfiguration"
-    ]
-    resources = ["arn:aws:s3:::${var.guardduty-s3-bucket}","arn:aws:s3:::${var.guardduty-s3-bucket}/*"]
-  }
-}
 resource "aws_iam_policy" "kms-policy" {
   name   = "kms-policy-${random_string.this.result}"
   policy = data.aws_iam_policy_document.kms-decrypt[0].json
@@ -59,6 +16,11 @@ resource "aws_iam_policy_attachment" "s3-policy-attachment" {
   roles      = [aws_iam_role.lambda-role.name]
   policy_arn = aws_iam_policy.s3-bucket-access.arn
 }
+resource "aws_iam_policy_attachment" "AWSLambdaBasicExecutionRole" {
+  roles = [aws_iam_role.lambda-role.name]
+  policy_arn = data.aws_iam_policy.AWSLambdaBasicExecutionRole.arn
+  name = data.aws_iam_policy.AWSLambdaBasicExecutionRole.name
+}
 resource "aws_iam_role" "lambda-role" {
   name               = "Lambda-Role-${random_string.this.result}"
   assume_role_policy = jsonencode({
@@ -74,27 +36,9 @@ resource "aws_iam_role" "lambda-role" {
       },
     ]
   })
-  inline_policy {
-    name   = "basicExecution"
-    policy = jsonencode({
-      Version   = "2012-10-17"
-      Statement = [
-        {
-          "Sid" : "basicExecution",
-          "Effect" : "Allow",
-          "Action" : [
-            "logs:CreateLogGroup",
-            "logs:CreateLogStream",
-            "logs:PutLogEvents"
-          ],
-          "Resource" : "arn:aws:logs:${data.aws_region.this}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${aws_lambda_function.this.function_name}"
-        }
-      ]
-    })
-  }
 }
 resource "aws_lambda_function" "this" {
-  function_name = "s3-to-coralogix"
+  function_name = "guardduty-to-coralogix"
   role          = aws_iam_role.lambda-role.arn
   s3_bucket     = "coralogix-serverless-repo-${data.aws_region.this.name}"
   s3_key        = "${var.package_name}.zip"
@@ -137,4 +81,8 @@ resource "aws_s3_bucket_notification" "this" {
     filter_prefix       = var.s3_key_prefix
     filter_suffix       = var.s3_key_suffix
   }
+}
+resource "aws_cloudwatch_log_group" "lambda-log-group" {
+  name = "/aws/lambda/guardduty-to-coralogix"
+  retention_in_days = 1
 }
