@@ -1,2 +1,4 @@
-master-account-id = 361846714147
-additional_tags   = {}
+master-account-id = 000000000000
+additional_tags   = {
+  # example-key = "example value"
+}
