@@ -8,8 +8,9 @@ Metadata:
         Parameters:
           - applicationName
           - subsystemName
-          - PrivateKey
           - CompanyId
+          - PrivateKey
+          - AlertsPrivateKey
       - Label:
           default: CSPM
         Parameters:
@@ -41,6 +42,8 @@ Metadata:
             default: Subsystem Name
           PrivateKey:
             default: API Private Key
+          AlertsPrivateKey:
+            default: Alerts API Private Key
           CompanyId:
             default: Company ID
           CSPMVersion:
@@ -173,18 +176,24 @@ Parameters:
     MaxLength: 64
   TesterList:
     Type: String
-    Description: Test only specific services (Comma separated with no spaces. optional)
+    Description: Optional - Test only specific services (Comma separated with no spaces)
   RegionList:
     Type: String
-    Description: Test only specific regions (Comma separated with no spaces. optional)
+    Description: Optional - Test only specific regions (Comma separated with no spaces)
   PrivateKey:
     Type: String
-    Description: The send your data API key from Coralogix account
+    Description: The 'Send Your Data' API key from Coralogix account
     AllowedPattern: '[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}'
     ConstraintDescription: The PrivateKey should be valid UUID string
     MinLength: 36
     MaxLength: 36
     NoEcho: true
+  AlertsPrivateKey:
+    Type: String
+    Description: Optional - The 'Alerts, Rules and Tags API Key' from Coralogix account
+    ConstraintDescription: The AlertsPrivateKey should be valid UUID string
+    MinLength: 36
+    MaxLength: 36
   CSPMVersion:
     Type: String
     Default: latest
@@ -269,6 +278,8 @@ Resources:
               - !Ref "PrivateKey"
               - " -e REGION_LIST="
               - !Ref "RegionList"
+              - " -e CORALOGIX_ALERT_API_KEY="
+              - !Ref "AlertsPrivateKey"
               - " --network host"
               - " -v ~/.aws/credentials:/root/.aws/credentials coralogixrepo/snowbit-cspm:"
               - !Ref "CSPMVersion"
@@ -279,7 +290,7 @@ Resources:
               - "sudo usermod -aG docker ubuntu \n"
               - "newgrp docker \n"
               - "\n"
-              - "docker run --name snowbit-cspm -d -e PYTHONUNBUFFERED=1 -e CLOUD_PROVIDER=\"aws\" -e AWS_DEFAULT_REGION=\"eu-west-1\" -e CORALOGIX_ENDPOINT_HOST="
+              - "docker rm snowbit-cspm ; docker rmi coralogixrepo/snowbit-cspm ; docker run --name snowbit-cspm -d -e PYTHONUNBUFFERED=1 -e CLOUD_PROVIDER=\"aws\" -e AWS_DEFAULT_REGION=\"eu-west-1\" -e CORALOGIX_ENDPOINT_HOST="
               - !FindInMap [ GRPCRegionMap, !Ref GRPCEndpoint, GRPCurl ]
               - " -e APPLICATION_NAME="
               - !Ref "applicationName"
@@ -294,8 +305,8 @@ Resources:
               - !Ref "PrivateKey"
               - " -e REGION_LIST="
               - !Ref "RegionList"
-              - " -e ROLE_ARN_LIST="
-              - !Ref "multiAccountsARNs"
+              - " -e CORALOGIX_ALERT_API_KEY="
+              - !Ref "AlertsPrivateKey"
               - " --network host"
               - " -v ~/.aws/credentials:/root/.aws/credentials coralogixrepo/snowbit-cspm:"
               - !Ref "CSPMVersion"
