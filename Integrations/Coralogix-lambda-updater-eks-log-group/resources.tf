@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "lambda-function" {
-  function_name = var.eks_new_function_name
+  function_name = var.eks_new_lambda_function_name
   filename      = "code.zip"
   timeout       = 60
   handler       = "main.lambda_handler"

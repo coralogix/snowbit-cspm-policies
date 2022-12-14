@@ -5,6 +5,6 @@ variable "existing_lambda_to_coralogix_name" {
     error_message = "The lambda name that sends to Coralogix cannot be empty"
   }
 }
-variable "eks_new_function_name" {
+variable "eks_new_lambda_function_name" {
   type = string
 }
