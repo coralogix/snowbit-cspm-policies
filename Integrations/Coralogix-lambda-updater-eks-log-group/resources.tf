@@ -18,7 +18,7 @@ resource "aws_lambda_permission" "eventbridge-lambda-invoke" {
   source_arn    = aws_cloudwatch_event_rule.scheduler.arn
 }
 resource "aws_iam_role" "lambda-role" {
-  name               = "Lambda-Role"
+  name               = "Lambda-Role-${random_id.id.hex}"
   assume_role_policy = jsonencode({
     Version   = "2012-10-17"
     Statement = [
@@ -57,7 +57,7 @@ resource "aws_iam_policy_attachment" "AWSLambdaBasicExecutionRole" {
   roles      = [aws_iam_role.lambda-role.name]
 }
 resource "aws_cloudwatch_event_rule" "scheduler" {
-  name                = "Scheduler-for-eks-shipping-lambda"
+  name                = "lambda-updater-for-eks-shipping"
   schedule_expression = "rate(10 minutes)"
 }
 resource "aws_cloudwatch_event_target" "scheduler-target" {
