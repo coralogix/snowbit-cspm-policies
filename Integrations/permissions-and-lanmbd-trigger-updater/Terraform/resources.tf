@@ -15,7 +15,7 @@ resource "aws_lambda_permission" "eventbridge-lambda-invoke" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda-function.function_name
   principal     = "events.amazonaws.com"
-  source_arn = aws_cloudwatch_event_rule.scheduler.arn
+  source_arn    = aws_cloudwatch_event_rule.scheduler.arn
 }
 resource "aws_iam_role" "lambda-role" {
   name               = "Lambda-Role"
@@ -41,10 +41,6 @@ resource "aws_iam_policy" "cloudwatch" {
   name   = "cloudwatch-policy-${random_id.id.hex}"
   policy = data.aws_iam_policy_document.cloud-watch-logs-policy[0].json
 }
-resource "aws_iam_policy" "lambda-basic-execution" {
-  name = "lambda-basic-execution-${random_id.id.hex}"
-  policy = data.aws_iam_policy_document.lambda-basic-execution[0].json
-}
 resource "aws_iam_policy_attachment" "lambda" {
   name       = "lambdaAttach"
   policy_arn = aws_iam_policy.lambda.arn
@@ -56,8 +52,8 @@ resource "aws_iam_policy_attachment" "cloudwatch" {
   roles      = [aws_iam_role.lambda-role.name]
 }
 resource "aws_iam_policy_attachment" "AWSLambdaBasicExecutionRole" {
-  name       = "lambda-basic-execution"
-  policy_arn = aws_iam_policy.lambda-basic-execution.arn
+  name       = data.aws_iam_policy.AWSLambdaBasicExecutionRole.name
+  policy_arn = data.aws_iam_policy.AWSLambdaBasicExecutionRole.arn
   roles      = [aws_iam_role.lambda-role.name]
 }
 resource "aws_cloudwatch_event_rule" "scheduler" {

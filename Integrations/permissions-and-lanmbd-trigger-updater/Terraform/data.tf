@@ -1,19 +1,11 @@
-#data "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
-#  arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-#}
+data "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
+  arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
 data "aws_lambda_function" "coralogix_lambda" {
   function_name = var.existing_lambda_to_coralogix_name
 }
 data "aws_region" "current" {}
 data "aws_caller_identity" "id" {}
-data "aws_iam_policy_document" "lambda-basic-execution" {
-  count = 1
-  statement {
-    effect = "Allow"
-    actions = ["logs:CreateLogGroup","logs:CreateLogStream", "logs:PutLogEvents"]
-    resources = ["arn:aws:${data.aws_region.current.name}:${data.aws_caller_identity.id.account_id}:*"]
-  }
-}
 data "aws_iam_policy_document" "lambda-policy" {
   count = 1
   statement {
