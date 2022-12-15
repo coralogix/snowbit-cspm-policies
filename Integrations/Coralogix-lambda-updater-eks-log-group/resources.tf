@@ -58,7 +58,7 @@ resource "aws_iam_policy_attachment" "AWSLambdaBasicExecutionRole" {
 }
 resource "aws_cloudwatch_event_rule" "scheduler" {
   name                = "lambda-updater-for-eks-shipping"
-  schedule_expression = "rate(10 minutes)"
+  schedule_expression = "rate(${var.execution_rate} minutes)"
 }
 resource "aws_cloudwatch_event_target" "scheduler-target" {
   arn       = aws_lambda_function.lambda-function.arn
