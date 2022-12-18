@@ -22,30 +22,30 @@ variable "CSPMVersion" {}
 module "CSPM" {
   source = "s3::https://snowbit-shared-resources.s3.eu-west-1.amazonaws.com/CSPM/Terraform/Deployment"
 
-  PrivateKey              = var.PrivateKey
-  Subnet_ID               = var.Subnet_ID
-  GRPC_Endpoint           = var.GRPC_Endpoint
-  SSHKeyName              = var.SSHKeyName
-  Company_ID              = var.Company_ID
-#  additional_tags         = var.additional_tags
-#  applicationName         = var.applicationName
-#  subsystemName           = var.subsystemName
-#  security_group_id       = var.security_group_id
-#  alertAPIkey             = var.alertAPIkey
-#  ebs_encryption          = var.ebs_encryption
-#  public_instance         = var.public_instance
-#  cronjob                 = var.cronjob
-#  instanceType            = var.instanceType
-#  SSHIpAddress            = var.SSHIpAddress
-#  CSPMVersion             = var.CSPMVersion
-#  DiskType                = var.DiskType
-#  TesterList              = var.TesterList
-#  RegionList              = var.RegionList
-#  multiAccountsARN        = var.multiAccountsARN
+  PrivateKey    = var.PrivateKey
+  Subnet_ID     = var.Subnet_ID
+  GRPC_Endpoint = var.GRPC_Endpoint
+  SSHKeyName    = var.SSHKeyName
+  Company_ID    = var.Company_ID
+  #  additional_tags         = var.additional_tags
+  #  applicationName         = var.applicationName
+  #  subsystemName           = var.subsystemName
+  #  security_group_id       = var.security_group_id
+  #  alertAPIkey             = var.alertAPIkey
+  #  ebs_encryption          = var.ebs_encryption
+  #  public_instance         = var.public_instance
+  #  cronjob                 = var.cronjob
+  #  instanceType            = var.instanceType
+  #  SSHIpAddress            = var.SSHIpAddress
+  #  CSPMVersion             = var.CSPMVersion
+  #  DiskType                = var.DiskType
+  #  TesterList              = var.TesterList
+  #  RegionList              = var.RegionList
+  #  multiAccountsARN        = var.multiAccountsARN
 }
 
 output "Coralogix-Private-Key" {
-  value = var.PrivateKey
+  value     = var.PrivateKey
   sensitive = true
 }
 output "CoralogixCompany-ID" {
@@ -64,7 +64,7 @@ output "Security-Group-ID" {
   value = var.security_group_id
 }
 output "Alert-API-key" {
-  value = var.alertAPIkey
+  value     = var.alertAPIkey
   sensitive = true
 }
 output "EBS-Encryption" {
