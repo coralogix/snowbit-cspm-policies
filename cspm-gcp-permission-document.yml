@@ -1,0 +1,34 @@
+title: cspm_role
+description: Snowbit CSPM Role
+stage: GA
+includedPermissions:
+  - apikeys.keys.list
+  - bigquery.datasets.get
+  - cloudkms.cryptoKeys.getIamPolicy
+  - cloudkms.cryptoKeys.list
+  - cloudkms.keyRings.list
+  - cloudsql.instances.get
+  - cloudsql.instances.list
+  - compute.firewalls.list
+  - compute.instances.list
+  - compute.networks.list
+  - compute.projects.get
+  - compute.regions.get
+  - compute.regions.list
+  - compute.sslPolicies.get
+  - compute.subnetworks.list
+  - compute.targetHttpsProxies.list
+  - container.clusters.list
+  - dns.managedZones.get
+  - dns.managedZones.list
+  - iam.serviceAccountKeys.list
+  - iam.serviceAccounts.list
+  - logging.logMetrics.list
+  - monitoring.alertPolicies.list
+  - monitoring.notificationChannels.get
+  - monitoring.notificationChannels.list
+  - resourcemanager.projects.get
+  - resourcemanager.projects.getIamPolicy
+  - storage.buckets.get
+  - storage.buckets.getIamPolicy
+  - storage.buckets.list
