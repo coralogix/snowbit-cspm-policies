@@ -28,3 +28,4 @@ resourcemanager.projects.getIamPolicy
 storage.buckets.get
 storage.buckets.getIamPolicy
 storage.buckets.list
+compute.zones.list
