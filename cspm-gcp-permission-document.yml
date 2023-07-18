@@ -30,5 +30,6 @@ includedPermissions:
   - resourcemanager.projects.get
   - resourcemanager.projects.getIamPolicy
   - storage.buckets.get
+  - compute.zones.list
   - storage.buckets.getIamPolicy
   - storage.buckets.list
