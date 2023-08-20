@@ -1,0 +1,16 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "VisualEditor0",
+			"Effect": "Allow",
+			"Action": "sts:AssumeRole",
+			"Resource": [
+              "arn:aws:iam::<additional_account_id_1>:role/<cspm_role_name>",
+              "arn:aws:iam::<additional_account_id_2>:role/<cspm_role_name>",
+              "arn:aws:iam::<additional_account_id_3>:role/<cspm_role_name>",
+              ...
+            ]
+		}
+	]
+}
