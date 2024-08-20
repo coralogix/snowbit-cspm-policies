@@ -113,6 +113,7 @@
         "ssm:Get*",
         "ssm:List*",
         "sts:Get*",
+        "sts:AssumeRole",
         "tag:Get*",
         "waf-regional:Get*",
         "waf-regional:List*",
