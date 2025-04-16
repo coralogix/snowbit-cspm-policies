@@ -1,5 +1,4 @@
 {
-    "id": "/subscriptions/b31bbc50-136c-48b9-982c-1b1be3bc9ec5/providers/Microsoft.Authorization/roleDefinitions/77986cbc-f90c-4883-8cc3-80935fac6f3c",
     "properties": {
         "roleName": "Custom-cspm-role",
         "description": "",
@@ -63,7 +62,6 @@
                     "Microsoft.KeyVault/vaults/secrets/setSecret/action",
                     "Microsoft.ServiceBus/namespaces/messages/send/action"
                 ],
-                "notDataActions": []
             }
         ]
     }
