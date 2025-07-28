@@ -62,6 +62,7 @@
                     "Microsoft.KeyVault/vaults/secrets/setSecret/action",
                     "Microsoft.ServiceBus/namespaces/messages/send/action"
                 ],
+                "notDataActions": []
             }
         ]
     }
